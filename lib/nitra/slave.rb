@@ -1,4 +1,5 @@
 require 'socket'
+require 'simplecov'
 
 module Nitra::Slave
   class Client
@@ -31,6 +32,10 @@ module Nitra::Slave
       slave_details_by_server[server] = slave_details
 
       pid = fork do
+        if configuration.coverage && !SimpleCov.running
+          SimpleCov.command_name SecureRandom.uuid
+          SimpleCov.start
+        end
         server.close
         $stdin.reopen(client.rd)
         $stdout.reopen(client.wr)

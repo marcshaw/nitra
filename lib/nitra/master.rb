@@ -1,3 +1,5 @@
+require 'simplecov'
+
 class Nitra::Master
   attr_reader :configuration, :files_by_framework
 
@@ -19,6 +21,10 @@ class Nitra::Master
     if configuration.process_count > 0
       client, runner = Nitra::Channel.pipe
       fork do
+        if configuration.coverage && !SimpleCov.running
+          SimpleCov.command_name SecureRandom.uuid
+          SimpleCov.start
+        end
         runner.close
         Nitra::Runner.new(configuration, client, "local").run
       end

@@ -34,6 +34,10 @@ module Nitra
           configuration.set_process_count n
         end
 
+        opts.on("--coverage", "Turn on coverage, overwrite in your own applications application.rb") do |n|
+          configuration.coverage = true
+        end
+
         opts.on("--cucumber [PATTERN1,PATTERN2]", Array,
                 "Full cucumber run, causes any files you list manually to be ignored.",
                 "Default pattern is \"features/**/*.feature\"."

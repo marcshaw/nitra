@@ -1,4 +1,5 @@
 require 'stringio'
+require 'simplecov'
 require 'tempfile'
 
 module Nitra
@@ -173,6 +174,7 @@ module Nitra
         stdout_pipe = IO.pipe
         stderr_pipe = IO.pipe
         @forked_worker_pid = fork do
+
           trap('USR1') { exit! }  # at_exit hooks will be run in the parent.
           $stdout.reopen(stdout_pipe[1])
           $stderr.reopen(stderr_pipe[1])
